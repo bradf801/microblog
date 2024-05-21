@@ -19,11 +19,18 @@ class User(UserMixin, db.Model):
   username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True, unique=True)
   email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
   password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
-  
-  posts: so.WriteOnlyMapped['Post'] = so.relationship(back_populates='author')
-  
   about_me: so.Mapped[Optional[str]] = so.mapped_column(sa.String(140))
   last_seen: so.Mapped[Optional[datetime]] = so.mapped_column(default=lambda: datetime.now(timezone.utc))
+    
+  posts: so.WriteOnlyMapped['Post'] = so.relationship(back_populates='author')
+  following: so.WriteOnlyMapped['User'] = so.relationship(
+    secondary=followers, primaryjoin=(followers.c.follower_id == id),
+    secondaryjoin=(followers.c.followed_id == id),
+    back_populates='followers')
+  followers: so.WriteOnlyMapped['User'] = so.relationship(
+    secondary=followers, primaryjoin=(followers.c.followed_id == id),
+    secondaryjoin=(followers.c.follower_id == id),
+    back_populates='following')  
   
   def __repr__(self):
     return '<User {}>'.format(self.username)
@@ -35,15 +42,6 @@ class User(UserMixin, db.Model):
   def avatar(self, size):
     digest = md5(self.email.lower().encode('utf-8')).hexdigest()
     return f'https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}'
-  
-  following: so.WriteOnlyMapped['User'] = so.relationship(
-    secondary=followers, primaryjoin=(followers.c.follower_id == id),
-    secondaryjoin=(followers.c.followed_id == id),
-    back_populates='followers')
-  followers: so.WriteOnlyMapped['User'] = so.relationship(
-    secondary=followers, primaryjoin=(followers.c.followed_id == id),
-    secondaryjoin=(followers.c.follower_id == id),
-    back_populates='following')  
   
   def follow(self, user):
     if not self.is_following(user):
