@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-11 10:09-0400\n"
+"POT-Creation-Date: 2024-06-11 12:45-0400\n"
 "PO-Revision-Date: 2024-06-11 10:09-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -70,6 +70,14 @@ msgstr ""
 msgid "Say something"
 msgstr ""
 
+#: app/translate.py:8
+msgid "Error: the translation service is not configured."
+msgstr ""
+
+#: app/translate.py:18
+msgid "Error: the translation service failed."
+msgstr ""
+
 #: app/templates/404.html:4
 msgid "Not Found"
 msgstr ""
@@ -91,7 +99,11 @@ msgstr ""
 msgid "%(username)s said %(when)s"
 msgstr ""
 
-#: app/templates/base.html:9
+#: app/templates/_post.html:25
+msgid "Translate"
+msgstr ""
+
+#: app/templates/base.html:10
 msgid "Welcome to Microblog"
 msgstr ""
 
@@ -107,11 +119,11 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: app/templates/base.html:40
+#: app/templates/base.html:41
 msgid "Profile"
 msgstr ""
 
-#: app/templates/base.html:43
+#: app/templates/base.html:44
 msgid "Logout"
 msgstr ""
 
